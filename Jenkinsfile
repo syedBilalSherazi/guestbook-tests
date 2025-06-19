@@ -17,9 +17,9 @@ pipeline {
         stage('Run Selenium Tests') {
             steps {
                 echo "Running tests in container..."
-                // clean up any leftover container
+                // Clean up if a container already exists
                 sh "docker rm -f $CONTAINER_NAME || true"
-                // run tests (container’s default CMD is `pytest test_guestbook.py`)
+                // Run the test container
                 sh "docker run --name $CONTAINER_NAME $IMAGE_NAME"
             }
         }
@@ -28,34 +28,38 @@ pipeline {
     post {
         success {
             echo 'All tests passed!'
-            mail to: "${env.GIT_COMMITTER_EMAIL}",
+            mail to: 'syedbilalsherazi1004@gmail.com',
                  subject: "✅ Build #${env.BUILD_NUMBER} succeeded in ${env.JOB_NAME}",
                  body: """\
-Hello,
+Hello Bilal,
 
-Your recent commit (${env.GIT_COMMIT_ID ?: 'unknown'}) in job ${env.JOB_NAME} passed all Selenium tests.
+Your build #${env.BUILD_NUMBER} in job '${env.JOB_NAME}' has passed all Selenium tests successfully.
 
-See build details: ${env.BUILD_URL}
+You can view the build details here:
+${env.BUILD_URL}
 
-— Jenkins"""
+— Jenkins
+"""
         }
 
         failure {
             echo 'One or more tests failed.'
-            mail to: "${env.GIT_COMMITTER_EMAIL}",
+            mail to: 'syedbilalsherazi1004@gmail.com',
                  subject: "❌ Build #${env.BUILD_NUMBER} failed in ${env.JOB_NAME}",
                  body: """\
-Hello,
+Hello Bilal,
 
-Your recent commit (${env.GIT_COMMIT_ID ?: 'unknown'}) in job ${env.JOB_NAME} has failed the Selenium tests.
+Your build #${env.BUILD_NUMBER} in job '${env.JOB_NAME}' has failed during Selenium tests.
 
-Please review the console output: ${env.BUILD_URL}console
+Check the console output here:
+${env.BUILD_URL}console
 
-— Jenkins"""
+— Jenkins
+"""
         }
 
         always {
-            // cleanup container
+            echo "Cleaning up container if it exists..."
             sh "docker rm -f $CONTAINER_NAME || true"
         }
     }
