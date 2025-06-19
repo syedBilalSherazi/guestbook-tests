@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
-BASE_URL = "http://localhost:5000"
+BASE_URL = "http://16.171.8.69:5000"
 
 @pytest.fixture
 def driver():
