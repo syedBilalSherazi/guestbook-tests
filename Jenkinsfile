@@ -28,7 +28,7 @@ pipeline {
     post {
         success {
             echo 'All tests passed!'
-            mail to: 'syedbilalsherazi1004@gmail.com',
+            mail to: 'qasimalik.com',
                  subject: "✅ Build #${env.BUILD_NUMBER} succeeded in ${env.JOB_NAME}",
                  body: """\
 Hello Bilal,
@@ -44,7 +44,7 @@ ${env.BUILD_URL}
 
         failure {
             echo 'One or more tests failed.'
-            mail to: 'syedbilalsherazi1004@gmail.com',
+            mail to: 'qasimalik@gmail.com',
                  subject: "❌ Build #${env.BUILD_NUMBER} failed in ${env.JOB_NAME}",
                  body: """\
 Hello Bilal,
